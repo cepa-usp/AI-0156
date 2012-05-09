@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	
+	<head>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    
+		<title>Atividade Interativa</title>
+		<h1 style="display:none;">Universidade Virtual do Estado de São Paulo<br>UNIVESP</h1>
+		<h1 style="display:none;">Centro de Ensino e Pesquisa Aplicada<br>CEPA</h1>
+    <h2 style="display:none;">Coordenadoria de Tecnologia da Informação<br>CTI/USP</h2>
+		
+		<link type="text/css" rel="stylesheet" href="css/smoothness/jquery-ui-1.8.13.custom.css"/>
+		<link type="text/css" rel="stylesheet" href="css/jquery.tooltip.css" />
+		<link type="text/css" rel="stylesheet" href="css/ai.css"/>
+		
+		<script type="text/javascript" src="./js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="./js/jquery-ui-1.8.13.custom.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.tooltip.pack.js" ></script>
+    <script type="text/javascript" src="./js/SCORM_API_wrapper.min.js"></script>
+		<script type="text/javascript" src="./js/ai.js"></script>
+		
+	</head>
+	
+	<body>
+		
+		<div style="clear:both"></div>
+	
+  	<p id="standalone-warning" style="color:red; display:none; font-weight: bold;"><img src="./images/atencao.png"/> Ops! Você não devia estar vendo esta mensagem: significa que algo está errado! Notifique o <em>Help-desk</em> sobre isso, informando também qual é o seu navegador e a versão dele.</p>
+  	
+  	<p id="javascript-warning" style="color:red;"><img src="./images/atencao.png"/> Habilite a execução de código Javascript do seu navegador (<a>ajuda</a>).</p>
+	
+    <p id="completion-warning" class="completion-message" style="color:#009932;"><img src="./images/atencao.png"/> Este exercício já foi concluído. Veja sua pontuação abaixo.</p>
+  	
+  	<h2>AI-0156</h2>
+  	
+		<!-- <p><span id="learner-prename">Professor,</span> após um passeio de seus alunos pela Serra da Cantareira, você pediu desenhos ou fotos que eles mesmos tiraram de animais encontrados na trilha. Dos animais apresentados, você poderia identificar prontamente quais <strong>não</strong> foram vistos na Serra? Selecione-os abaixo e, quando tiver terminado, pressione o botão "terminei".</p> -->
+	
+	
+	<!-- Dialog box -->
+	<div id="botao-dialog" class="image-selection-dialog" style="display:none;" title="Confirmação">
+		<div id="imagem"></div>
+		<p>Que é o nome do animal ou protista que inspirou a criação do personagem de ficção?</p>
+		<p>Responda e veja se acertou ou não.</p>
+		<input type="text" name="userAnswer" id="userAnswer" value="" size="40" />
+		<br/>
+		<div id="send" float="right">Enviar</div>
+		<br/>
+		<input type="text" name="resposta" id="resposta" value="" size="40"/>
+	</div>	
+		
+	
+  	<!-- Imagem 1 -->
+  	<div class="botao" id="botao1" title="Morpho sp."><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig03w.jpg" width="100" /><div class="molde"></div></div>  
+      
+    <!-- Imagem 2 -->
+    <div class="botao" id="botao2" title="Armadillidium sp."><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig05w.jpg" width="100" /><div class="molde"></div></div>
+
+    <!-- Imagem 3 -->
+    <div class="botao" id="botao3"  title="Conepatus chinga"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig09w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 4 -->
+    <div class="botao" id="botao4"  title="Choeropsis liberiensis"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig13w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 5 -->
+    <div class="botao" id="botao5"  title="Gavialis gangeticus"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig15w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 6 -->
+    <div class="botao" id="botao6"  title="Collonychium sp."><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig17w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 7 -->
+    <div class="botao" id="botao7"  title="Caenorhabditis elegans"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig19w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 8 -->
+    <div class="botao" id="botao8"  title="Hystrix cristata"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig21w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 9 -->
+    <div class="botao" id="botao9"  title="Geoplana vaginuloides"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig23w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 10 -->
+    <div class="botao" id="botao10" title="Tapirus terrestris"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig25w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 11 -->
+    <div class="botao" id="botao11" title="Daubentonia madagascariensi"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig27w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 12 -->
+    <div class="botao" id="botao12" title="Nasua nasua"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig29w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 13 -->
+    <div class="botao" id="botao13" title="Parandra sp."><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig31w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 14 -->
+    <div class="botao" id="botao14" title="Theromizon tessulatum"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig33w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 15 -->
+    <div class="botao" id="botao15" title="Dermochelys coriacea"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig35w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 16 -->
+    <div class="botao" id="botao16" title="Naja haja"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig37w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 17 -->
+    <div class="botao" id="botao17" title="Rhopalaea sp."><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig39w.jpg" width="100"/><div class="molde"></div></div>
+    
+    <!-- Imagem 18 -->
+    <div class="botao" id="botao18" title="Larus michaelis"><img src="http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig41w.jpg" width="100" /><div class="molde"></div></div>
+
+    
+	<div class="clear"></div>
+    
+    <p></p>
+  	
+    <div id="ai-license" style="display: none;">
+      <p>Este material foi criado pelo Centro de Ensino e Pesquisa Aplicada (CEPA) do Departamento de Física Experimental do Instituto de Física da Universidade de São Paulo, campus capital, e é distribuido conforme a licença Creative Commons Atribuição - Uso não-comercial - Compartilhamento pela mesma licença 3.0 Brasil (<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/br/" target="_blank">CC BY-NC-SA 3.0</a>). Isto significa que você pode compartilhar ou remixar esta obra, segundo esta mesma licença, desde que cite o autor original (CEPA) e sua página web (<a href="http://www.cepa.if.usp.br" target="_blank">cepa.if.usp.br</a>). Você NÃO pode usar esta obra, nem variações dela, para fins comerciais (para este propósito, entre em contato com o CEPA).</p>
+    </div>
+	</body>
+</html>
