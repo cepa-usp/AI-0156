@@ -227,6 +227,12 @@ function showAnswer(){
 			break;
 	}
 	
+	if($("#userAnswer").val() == ans){
+		$("#"+currentId+"certo").show();
+	}else{
+		$("#"+currentId+"errado").show();
+	}
+	
 	$("#resposta").val(ans);
 	$("#answerImg").show();
 	
