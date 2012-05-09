@@ -63,8 +63,12 @@ p {
 	border-width:medium;
 }
 
+#botaoCaixa{
+	float:right;
+}
+
 .glow{
-    float: left;
+	margin-left:200px;
 }
 
 .selecaoCorreta{

@@ -36,8 +36,11 @@ function preFetchConfig () {
   $(".image-selection-dialog").dialog({
     autoOpen: false,
     modal: true,
+	resizable: false,
     width: 500
   });
+  
+  $('#resposta').attr("disabled", true);
   
   // Configura os tooltips (nomes científicos)
   $('.botao').tooltip({
@@ -122,6 +125,8 @@ function openDialog(dialogId){
 	}else {
 		$("#userAnswer").val("");
 		$("#resposta").val("");
+		$("#userAnswer").attr("disabled", false);
+		$("#send").button({disabled: false});
 	}
 	
 	$("#botao-dialog").dialog("open");
@@ -137,19 +142,24 @@ function getImg(dialogId, soma){
 		nDialog += 2;
 	}
 	
-	var img1Num = 2 * nDialog + soma;
+	var imgNum = 2 * nDialog + soma;
 	
 	var imgPath;
-	if(img1Num < 10){
-		imgPath = "http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig0" + img1Num + "w.jpg";
+	if(imgNum < 10){
+		imgPath = "http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig0" + imgNum + "w.jpg";
 	}else{
-		imgPath = "http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig" + img1Num + "w.jpg";
+		imgPath = "http://midia.atp.usp.br/imagens/redefor/EnsinoBiologia/Zoo/2011-2012/top03_fig" + imgNum + "w.jpg";
 	}
 	
 	return imgPath;
 }
 
 function showAnswer(){
+	
+	if($("#userAnswer").val() == ""){
+		alert("Você precisa digitar algo para ser avaliado.");
+		return;
+	}
 	
 	respondidos[currentId] = $("#userAnswer").val();
 	
@@ -219,44 +229,11 @@ function showAnswer(){
 	
 	$("#resposta").val(ans);
 	$("#answerImg").show();
-}
-
-
-/*
- * Finaliza a atividade
- */
-function finish () {
-
-	if (!state.try_completed) {
 	
-		state.try_completed = true;
-		
-		if (state.tries < 2) ++state.tries;
-		
-		state.completed = state.try_completed && state.tries == 2;
-
-		var current_count = state.count;
-		
-		if (!state.completed) {
-			state.choices = [];
-			state.count = 0;
-		}
-		
-		var success = commit(state);
-		
-		if (success) {
-			$("#enviar").button("option", "disabled", true);
-			$("#answer").button("option", "disabled", false);
-			$(".completion-message").show();
-			$("#after-finish-dialog").dialog("open");
-			$(".count").html(current_count);
-      $(".score").show();
-		}
-		else {
-			alert("Falha ao enviar dados para o LMS.");
-		}
-	}
+	$("#userAnswer").attr("disabled", true);
+	$("#send").button({disabled: true});
 }
+
 
 /*
  * Inicia a conexão SCORM.
