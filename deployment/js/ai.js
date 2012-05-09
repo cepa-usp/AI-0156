@@ -158,17 +158,62 @@ function showAnswer(){
 	switch (currentId)
 	{
 		case "botao1":
-			ans = "Teste resposta 1";
+			ans = "Hidra";
 			break;
 		case "botao2":
-			ans = "Teste resposta 2";
+			ans = "Ancilóstoma";
 			break;
 		case "botao3":
-			ans = "Teste resposta 3";
+			ans = "Lagosta";
+			break;
+		case "botao4":
+			ans = "Polvo";
+			break;
+		case "botao5":
+			ans = "Megaloptera";
+			break;
+		case "botao6":
+			ans = "Aranha";
+			break;
+		case "botao7":
+			ans = "Mosca";
+			break;
+		case "botao8":
+			ans = "Traça";
+			break;
+		case "botao9":
+			ans = "Água viva";
+			break;
+		case "botao10":
+			ans = "Lagarta";
+			break;
+		case "botao11":
+			ans = "Mariposa";
+			break;
+		case "botao12":
+			ans = "Gafanhoto";
+			break;
+		case "botao13":
+			ans = "Ameba";
+			break;
+		case "botao14":
+			ans = "Estrela-do-mar";
+			break;
+		case "botao15":
+			ans = "Esponja-do-mar";
+			break;
+		case "botao16":
+			ans = "Copépode";
+			break;
+		case "botao17":
+			ans = "Ciliado";
+			break;
+		case "botao18":
+			ans = "Copépode";
 			break;
 		
 		default:
-			ans = "Teste resposta geral";
+			ans = "Ops, algo errado.";
 			break;
 	}
 	
