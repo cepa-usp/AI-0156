@@ -196,76 +196,86 @@ function showAnswer(){
 	
 	respondidos[currentId] = $("#userAnswer").val();
 	
-	var ans;
+	var ans = [];
 	
 	switch (currentId)
 	{
 		case "botao1":
-			ans = "Hidra";
+			ans = ["Hidra"];
 			break;
 		case "botao2":
-			ans = "Ancilóstoma";
+			ans = ["Ancilóstoma", "Ancilostoma", "Verme amarelao", "Verme amarelão"];
 			break;
 		case "botao3":
-			ans = "Lagosta";
+			ans = ["Lagosta"];
 			break;
 		case "botao4":
-			ans = "Polvo";
+			ans = ["Polvo"];
 			break;
 		case "botao5":
-			ans = "Megaloptera";
+			ans = ["Megaloptera", "Inseto"];
 			break;
 		case "botao6":
-			ans = "Aranha";
+			ans = ["Aranha", "Tarântula", "Tarantula"];
 			break;
 		case "botao7":
-			ans = "Mosca";
+			ans = ["Mosca", "Mosca doméstica", "Mosca domestica"];
 			break;
 		case "botao8":
-			ans = "Traça";
+			ans = ["Traça", "Traca"];
 			break;
 		case "botao9":
-			ans = "Água viva";
+			ans = ["Água viva", "Agua viva", "Medusa"];
 			break;
 		case "botao10":
-			ans = "Lagarta";
+			ans = ["Lagarta"];
 			break;
 		case "botao11":
-			ans = "Mariposa";
+			ans = ["Mariposa"];
 			break;
 		case "botao12":
-			ans = "Gafanhoto";
+			ans = ["Gafanhoto"];
 			break;
 		case "botao13":
-			ans = "Ameba";
+			ans = ["Ameba"];
 			break;
 		case "botao14":
-			ans = "Estrela-do-mar";
+			ans = ["Estrela-do-mar", "Estrela do mar"];
 			break;
 		case "botao15":
-			ans = "Esponja-do-mar";
+			ans = ["Esponja-do-mar", "Esponja do mar"];
 			break;
 		case "botao16":
-			ans = "Copépode";
+			ans = ["Copépode", "Copepode"];
 			break;
 		case "botao17":
-			ans = "Ciliado";
+			ans = ["Ciliado"];
 			break;
 		case "botao18":
-			ans = "Copépode";
+			ans = ["Copépode", "Copepode"];
 			break;
 		
 		default:
-			ans = "Ops, algo errado.";
+			ans = ["Ops, algo errado."];
 			break;
 	}
 	
-	if($("#userAnswer").val() == ans){
+	var minDist = 999999;
+	var indexAnswer;
+	for(var i = 0; i < ans.length; i++){
+		var dist = computeLevenshteinDistance($("#userAnswer").val().toLowerCase(), ans[i].toLowerCase());
+		if(dist < minDist){
+			minDist = dist;
+			indexAnswer = i;
+		}
+	}
+	
+	if(minDist <= 2){
 		$("#"+currentId+"certo").show();
-		$("#resposta").html('<p style="color:green">Correto, é um(a) ' + ans + " (figura acima).</p>");
+		$("#resposta").html('<p style="color:green">Correto, é um(a) ' + ans[indexAnswer].toLowerCase() + " (figura acima).</p>");
 	}else{
 		$("#"+currentId+"errado").show();
-		$("#resposta").html('<p style="color:red;">Ops! O correto seria ' + ans + " (figura acima).</p>");
+		$("#resposta").html('<p style="color:red;">Ops! O correto seria ' + ans[0].toLowerCase() + " (figura acima).</p>");
 	}
 	
 	//$("#resposta").val(ans);
@@ -277,6 +287,29 @@ function showAnswer(){
 	$("#send").button({disabled: true});
 	
 	saveStatus()
+}
+
+function minimum(a, b, c) {
+	return Math.min(Math.min(a, b), c);
+}
+ 
+function computeLevenshteinDistance(str1, str2) {
+	
+	var distance = new Array(str1.length + 1);
+	for (var a = 0; a < str1.length + 1; a++){
+		distance[a] = new Array(str2.length + 1);
+	}
+
+	for (var i = 0; i <= str1.length; i++) distance[i][0] = i;
+	for (var j = 0; j <= str2.length; j++) distance[0][j] = j;
+
+	for (i = 1; i <= str1.length; i++){
+		for (j = 1; j <= str2.length; j++){
+			distance[i][j] = minimum(distance[i - 1][j] + 1, distance[i][j - 1] + 1, distance[i - 1][j - 1] + ((str1.charAt(i - 1) == str2.charAt(j - 1)) ? 0 : 1));
+		}
+	}
+
+	return distance[str1.length][str2.length];
 }
 
 function saveStatus(){
@@ -307,7 +340,7 @@ function fetch () {
   ans.learner = "";
   ans.connected = false;
   ans.standalone = true;
-  ans.memento = "";
+  ans.memento = {};
   
   // Conecta-se ao LMS
   session_connected = scorm.init();
@@ -325,9 +358,7 @@ function fetch () {
 	  scorm.set("cmi.exit", "suspend");
     // Verifica se a AI já foi concluída.
     var completionstatus = scorm.get("cmi.completion_status");
-	var stream = scorm.get("cmi.location");
-    if (stream != "") ans = JSON.parse(stream);
-    
+	
     // A AI já foi concluída.
     switch (completionstatus) {
     
