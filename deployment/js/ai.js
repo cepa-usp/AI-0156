@@ -37,7 +37,7 @@ function preFetchConfig () {
     autoOpen: false,
     modal: true,
 	resizable: false,
-    width: 500,
+    width: 500
   });
   
   // Configura o botão "enviar"
@@ -51,7 +51,7 @@ function preFetchConfig () {
 	autoOpen: false,
     modal: true,
 	resizable: false,
-    width: 600,
+    width: 600
   });
   
   //$('#resposta').attr("disabled", true);
@@ -120,6 +120,12 @@ function posFetchConfig () {
   	// Oculta a pontuação
   	$(".score").hide();
   }
+  
+  $("#userAnswer").keypress(function(event) {
+	 if ( event.which == 13 ) {
+		showAnswer();
+	  }
+	});
   
   recoverStatus(state.memento);
 }

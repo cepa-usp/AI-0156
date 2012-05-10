@@ -37,7 +37,7 @@ function preFetchConfig () {
     autoOpen: false,
     modal: true,
 	resizable: false,
-    width: 500,
+    width: 500
   });
   
   // Configura o botão "enviar"
@@ -51,7 +51,7 @@ function preFetchConfig () {
 	autoOpen: false,
     modal: true,
 	resizable: false,
-    width: 600,
+    width: 600
   });
   
   //$('#resposta').attr("disabled", true);
@@ -120,6 +120,12 @@ function posFetchConfig () {
   	// Oculta a pontuação
   	$(".score").hide();
   }
+  
+  $("#userAnswer").keypress(function(event) {
+	 if ( event.which == 13 ) {
+		showAnswer();
+	  }
+	});
   
   recoverStatus(state.memento);
 }
@@ -402,6 +408,7 @@ function fetch () {
  */ 
 function commit (data) {
 
+	if(scorm.get("cmi.mode") != "normal") return;
   var success = false;
 
   // Garante que a nota do usuário é um inteiro entre 0 e 100.
