@@ -322,6 +322,7 @@ function fetch () {
   }
   else {
   
+	  scorm.set("cmi.exit", "suspend");
     // Verifica se a AI já foi concluída.
     var completionstatus = scorm.get("cmi.completion_status");
 	var stream = scorm.get("cmi.location");
@@ -388,7 +389,7 @@ function commit (data) {
 
     //if (scorm.connection.isActive) {
     if (data.connected) {
-    
+	
       // Salva no LMS a nota do aluno.
       success = scorm.set("cmi.score.raw", data.score);
       
