@@ -40,6 +40,20 @@ function preFetchConfig () {
     width: 500,
   });
   
+  // Configura o botão "enviar"
+	  $("#btCreditos").click(function () {
+		$("#creditos").dialog({ position: ['center',150] });
+		$("#creditos").dialog("open");
+	  });
+  
+  
+  $("#creditos").dialog({
+	autoOpen: false,
+    modal: true,
+	resizable: false,
+    width: 600,
+  });
+  
   //$('#resposta').attr("disabled", true);
   $('#resposta').hide();
   
@@ -105,9 +119,25 @@ function posFetchConfig () {
   	
   	// Oculta a pontuação
   	$(".score").hide();
-  }	
+  }
+  
+  recoverStatus(state.memento);
 }
 
+var nPecas = 18;
+function recoverStatus(memento){
+	respondidos = memento;
+	for(var i = 1; i <= nPecas; i++){
+		if(respondidos["botao"+i] != undefined){
+			dialogId = "botao"+i;
+			currentId = dialogId;
+			$("#userAnswer").val(respondidos[dialogId]);
+			showAnswer();
+		}
+	}
+	dialogId = "";
+	currentId = "";
+}
 
 var currentId;
 function openDialog(dialogId){
@@ -245,8 +275,26 @@ function showAnswer(){
 	
 	$("#userAnswer").attr("disabled", true);
 	$("#send").button({disabled: true});
+	
+	saveStatus()
 }
 
+function saveStatus(){
+	state.completed = true;
+	state.score = 100;
+	for(var i = 1; i <= nPecas; i++){
+		if(respondidos["botao"+i] != undefined){
+			
+		}else{
+			state.completed = false;
+			state.score = 0;
+			break;
+		}
+	}
+	
+	state.memento = respondidos;
+	commit(state);
+}
 
 /*
  * Inicia a conexão SCORM.
@@ -255,14 +303,11 @@ function fetch () {
  
   var ans = {};
   ans.completed = false;
-  ans.try_completed = false;
-  ans.count = 0;
   ans.score = 0;
-  ans.choices = [];
   ans.learner = "";
   ans.connected = false;
   ans.standalone = true;
-  ans.tries = 0;
+  ans.memento = "";
   
   // Conecta-se ao LMS
   session_connected = scorm.init();
@@ -270,7 +315,7 @@ function fetch () {
   
   if (session_standalone) {
   
-      var stream = localStorage.getItem("ai_0006_redefor-memento");
+      var stream = localStorage.getItem("ai_0156-memento");
       if (stream != null) ans = JSON.parse(stream);
       
       ans.try_completed = ans.completed;
@@ -279,6 +324,8 @@ function fetch () {
   
     // Verifica se a AI já foi concluída.
     var completionstatus = scorm.get("cmi.completion_status");
+	var stream = scorm.get("cmi.location");
+    if (stream != "") ans = JSON.parse(stream);
     
     // A AI já foi concluída.
     switch (completionstatus) {
@@ -288,14 +335,8 @@ function fetch () {
       case "unknown":
       default:
         ans.learner = scorm.get("cmi.learner_name");
-      	//ans.completed = <valor padrão>;
-      	//ans.try_completed = <valor padrão>;
-      	//ans.count = <valor padrão>;
-      	//ans.score = <valor padrão>;
-      	//ans.choices = <valor padrão>;
       	ans.connected = session_connected;
       	ans.standalone = session_standalone;
-      	//ans.tries = <valor padrão>;
         break;
         
       // Continuando a AI...
@@ -304,14 +345,8 @@ function fetch () {
         if (stream != "") ans = JSON.parse(stream);
         
         ans.learner = scorm.get("cmi.learner_name");
-        ans.completed = false;
-        ans.try_completed = false;
-        //ans.count = <obtido de cmi.location>;
-        //ans.score = <obtido de cmi.location>;
-        //ans.choices = <obtido de cmi.location>;
         ans.connected = session_connected;
         ans.standalone = session_standalone;
-        //ans.tries = <obtido de cmi.location>;
         break;
         
       // A AI já foi completada.
@@ -321,13 +356,8 @@ function fetch () {
         
         ans.learner = scorm.get("cmi.learner_name");
         ans.completed = true;
-        ans.try_completed = true;
-        //ans.count = <obtido de cmi.location>;
-        //ans.score = <obtido de cmi.location>;
-        //ans.choices = <obtido de cmi.location>;
         ans.connected = session_connected;
         ans.standalone = session_standalone;
-        //ans.tries = <obtido de cmi.location>;
         break;
     }    
   }
@@ -343,13 +373,13 @@ function commit (data) {
   var success = false;
 
   // Garante que a nota do usuário é um inteiro entre 0 e 100.
-  data.score = Math.max(0, Math.min(Math.ceil(data.count * 100 / N_ANSWERS), 100));
+  //data.score = Math.max(0, Math.min(Math.ceil(data.count * 100 / N_ANSWERS), 100));
   
   // Se estiver rodando como stand-alone, usa local storage (HTML 5)
   if (data.standalone) {
 	
     var stream = JSON.stringify(data);
-    localStorage.setItem("ai_0006_redefor-memento", stream);
+    localStorage.setItem("ai_0156-memento", stream);
     
     success = true;
   }
