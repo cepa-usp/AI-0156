@@ -37,10 +37,11 @@ function preFetchConfig () {
     autoOpen: false,
     modal: true,
 	resizable: false,
-    width: 500
+    width: 500,
   });
   
-  $('#resposta').attr("disabled", true);
+  //$('#resposta').attr("disabled", true);
+  $('#resposta').hide();
   
   // Configura os tooltips (nomes científicos)
   $('.botao').tooltip({
@@ -124,11 +125,13 @@ function openDialog(dialogId){
 		showAnswer();
 	}else {
 		$("#userAnswer").val("");
-		$("#resposta").val("");
+		//$("#resposta").val("");
+		$("#resposta").hide();
 		$("#userAnswer").attr("disabled", false);
 		$("#send").button({disabled: false});
 	}
 	
+	$("#botao-dialog").dialog({ position: ['center',100] });
 	$("#botao-dialog").dialog("open");
 }
 
@@ -229,11 +232,15 @@ function showAnswer(){
 	
 	if($("#userAnswer").val() == ans){
 		$("#"+currentId+"certo").show();
+		$("#resposta").html('<p style="color:green">Correto, é um(a) ' + ans + " (figura acima).</p>");
 	}else{
 		$("#"+currentId+"errado").show();
+		$("#resposta").html('<p style="color:red;">Ops! O correto seria ' + ans + " (figura acima).</p>");
 	}
 	
-	$("#resposta").val(ans);
+	//$("#resposta").val(ans);
+	
+	$("#resposta").show();
 	$("#answerImg").show();
 	
 	$("#userAnswer").attr("disabled", true);
