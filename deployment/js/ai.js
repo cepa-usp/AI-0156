@@ -81,9 +81,9 @@ function preFetchConfig () {
  */
 function posFetchConfig () {
 	
-	  if (state.standalone) {
+	  /*if (state.standalone) {
 	    $("#standalone-warning").show();
-	  }
+	  }*/
 	
 	  // Configura a seleção de um animal (imagem) 
 	  $(".botao").button().click(function () {
