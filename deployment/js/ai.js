@@ -361,7 +361,10 @@ function fetch () {
   }
   else {
   
-	  scorm.set("cmi.exit", "suspend");
+	scorm.set("cmi.exit", "suspend");
+	scorm.set("cmi.score.min", "0");
+	scorm.set("cmi.score.max", "100");
+	
     // Verifica se a AI já foi concluída.
     var completionstatus = scorm.get("cmi.completion_status");
 	
@@ -379,7 +382,7 @@ function fetch () {
         
       // Continuando a AI...
       case "incomplete":
-        var stream = scorm.get("cmi.location");
+        var stream = scorm.get("cmi.suspend_data");
         if (stream != "") ans = JSON.parse(stream);
         
         ans.learner = scorm.get("cmi.learner_name");
@@ -389,7 +392,7 @@ function fetch () {
         
       // A AI já foi completada.
       case "completed":
-        var stream = scorm.get("cmi.location");
+        var stream = scorm.get("cmi.suspend_data");
         if (stream != "") ans = JSON.parse(stream);
         
         ans.learner = scorm.get("cmi.learner_name");
@@ -408,6 +411,8 @@ function fetch () {
  */ 
 function commit (data) {
 
+	if(scorm.get("cmi.mode") != "normal") return;
+	
   var success = false;
 
   // Garante que a nota do usuário é um inteiro entre 0 e 100.
@@ -435,7 +440,7 @@ function commit (data) {
       
       // Salva no LMS os demais dados da atividade.
       var stream = JSON.stringify(data);      
-      success = scorm.set("cmi.location", stream);
+      success = scorm.set("cmi.suspend_data", stream);
     }
   }
   
