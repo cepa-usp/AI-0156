@@ -441,6 +441,12 @@ function commit (data) {
       // Salva no LMS os demais dados da atividade.
       var stream = JSON.stringify(data);      
       success = scorm.set("cmi.suspend_data", stream);
+
+      	if(data.completed){
+	  		success = scorm.set("cmi.exit", "normal");
+		} else {
+	  		success = scorm.set("cmi.exit", "suspend");
+		}
     }
   }
   
